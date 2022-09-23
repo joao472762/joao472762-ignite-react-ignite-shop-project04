@@ -1,5 +1,6 @@
 import { AppProps } from "next/app"
 import Image from 'next/future/image'
+import Link from "next/link"
 
 import logoImg from '../assets/igniteShopLogo.svg'
 
@@ -12,7 +13,11 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <Header>
-        <Image src={logoImg}  alt=''/>
+        <Link  href="/">
+          <a>
+             <Image src={logoImg}  alt=''/>
+          </a>
+        </Link>
       </Header>
       <Component  {...pageProps} />
     </Container>

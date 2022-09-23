@@ -8,6 +8,7 @@ import {useKeenSlider} from 'keen-slider/react'
 import { stripe } from "../libs/stripe"
 import { GetServerSideProps, GetStaticProps } from "next"
 import Stripe from "stripe"
+import Link from "next/link"
 
 
 interface ProductsProps {
@@ -15,7 +16,7 @@ interface ProductsProps {
   description: string,
   name: string,
   imageUrl: string,
-  price: number
+  price: string
 }
 
 interface HomeProps {
@@ -32,28 +33,21 @@ export default function Home({products} : HomeProps) {
     }
   })
 
-  function formatPrice(price: number){
-    const priceFormated = price.toLocaleString('pt-br', {
-      style: 'currency',
-      currency: 'BRL'
-    })
-
-    return priceFormated
-  }
   
-
 
   return (
     <HomeContainer ref={sliderRef} className="keen-slider">
       {
         products.map(product => (
-          <Product  key={product.id} className="keen-slider__slide">
-            <Image src={product.imageUrl} alt='' width={520} height={420}/>
-            <Footer>
-              <strong>{product.name}</strong>
-              <span>{product.price}</span>
-            </Footer>
-          </Product>
+          <Link key={product.id} href={`/product/${product.id}`}>
+            <Product   className="keen-slider__slide">
+              <Image src={product.imageUrl} alt='' width={520} height={420}/>
+              <Footer>
+                <strong>{product.name}</strong>
+                <span>{product.price}</span>
+              </Footer>
+            </Product>
+          </Link>
           
         ))
       }  
