@@ -8,12 +8,12 @@ import { globalStyles } from "../styles/global"
 import { Container, Header} from "../styles/pages/app"
 
 globalStyles()
-const css = { maxWidth: '100%', height: 'auto' }
+
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Container>
       <Header>
-        <Link  href="/">
+        <Link  prefetch={false} href="/">
           <a>
              <Image src={logoImg}  alt=''/>
           </a>

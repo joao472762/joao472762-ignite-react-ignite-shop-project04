@@ -60,6 +60,7 @@ export const getStaticPaths : GetStaticPaths = async () => {
         fallback: true
     }
 }
+
 export const getStaticProps: GetStaticProps<any,{id:string}> = async ({params})  => {
     const productId = params.id
    
