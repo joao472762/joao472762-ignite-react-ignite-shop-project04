@@ -1,4 +1,6 @@
+import axios from "axios"
 import Stripe from "stripe"
+import { useState } from "react"
 import Image from "next/future/image"
 import { GetStaticPaths, GetStaticProps} from  'next'
 
@@ -18,18 +20,34 @@ interface ProductProps {
     description: string,
     name: string,
     imageUrl: string,
-    price: number
+    price: number,
+    defaultPriceId: string,
 }
   
 interface ProductProps {
     product: ProductProps,
 }
 
-export default function Product({product,}: ProductProps){
+export default function Product({product}: ProductProps){
     const {isFallback} = useRouter()
+    const [isCreatingCheckoutSession, setIsCreatingCheckoutSession] = useState(false)
 
     if(isFallback){
         return <LoadCard/>
+    }
+
+    async function handlePurchaseNewProduct(){
+        try {
+            setIsCreatingCheckoutSession(true)
+            const url = '/api/checkout'
+            const response = await axios.post(url,{priceId: product.defaultPriceId})
+            const checkOutUrl: string = response.data.checkoutUrl
+            
+            location.href = checkOutUrl
+        } catch (error) {
+            alert('não foi possível te redirecionar  a rota de compra')        
+            setIsCreatingCheckoutSession(false)
+        }
     }
   
     return (
@@ -44,7 +62,11 @@ export default function Product({product,}: ProductProps){
                 <strong>{product.price}</strong>
                 <p>{product.description}</p>
 
-                <PurchaseButton>Comprar agora</PurchaseButton>
+                <PurchaseButton 
+                    disabled = {isCreatingCheckoutSession}
+                    onClick={handlePurchaseNewProduct}>
+                        Comprar agora
+                </PurchaseButton>
             </ProductDescription>
         </ProductContainer>
 
@@ -82,6 +104,7 @@ export const getStaticProps: GetStaticProps<any,{id:string}> = async ({params}) 
         name: productStripe.name,
         imageUrl: productStripe.images[0],
         price:  PriceFormater.format(price.unit_amount / 100),
+        defaultPriceId: price.id
         
     }
 

@@ -71,8 +71,13 @@ export const  PurchaseButton = styled('button',{
     borderRadius: 8,
     transitionDuration: '.2s',
 
-    '&:hover':{
+    '&:not(:disabled):hover':{
         backgroundColor: '$green300'
+    },
+
+    '&:disabled': {
+        cursor: 'not-allowed',
+        backgroundColor: '$green500'
     }
 })
 
