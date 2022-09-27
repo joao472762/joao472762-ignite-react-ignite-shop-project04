@@ -13,6 +13,7 @@ import {
     ProductContainer,
     ProductDescription,
 } from "../../styles/pages/product"
+import Head from "next/head"
 
 
 interface ProductProps {
@@ -51,24 +52,30 @@ export default function Product({product}: ProductProps){
     }
   
     return (
+        <>
+            <Head>
+                <title>{product.name} | ignite Shop</title>
+            </Head>
+            <ProductContainer>
+                <ImageContainer>
+                    <Image  src={product.imageUrl}height={480} width={480} alt=''/>
+                </ImageContainer>
+
+                <ProductDescription>
+                    <h1>{product.name}</h1>
+                    <strong>{product.price}</strong>
+                    <p>{product.description}</p>
+
+                    <PurchaseButton 
+                        disabled = {isCreatingCheckoutSession}
+                        onClick={handlePurchaseNewProduct}>
+                            Comprar agora
+                    </PurchaseButton>
+                </ProductDescription>
+            </ProductContainer>
         
-        <ProductContainer>
-            <ImageContainer>
-                <Image  src={product.imageUrl}height={480} width={480} alt=''/>
-            </ImageContainer>
-
-            <ProductDescription>
-                <h1>{product.name}</h1>
-                <strong>{product.price}</strong>
-                <p>{product.description}</p>
-
-                <PurchaseButton 
-                    disabled = {isCreatingCheckoutSession}
-                    onClick={handlePurchaseNewProduct}>
-                        Comprar agora
-                </PurchaseButton>
-            </ProductDescription>
-        </ProductContainer>
+        </>
+        
 
           
     )

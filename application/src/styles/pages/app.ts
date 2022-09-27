@@ -5,14 +5,15 @@ export const Container = styled('div',{
     flexDirection: 'column',
     alignItems: 'flex-start',
     justifyContent: 'center',
-
+    padding: '1.5rem' ,
     minHeight: '100vh'
 })
 
 export const Header = styled('header',{
-    padding: '2rem',
     width: '100%',
     maxWidth: 1212,
     margin: '0 auto',
+    padding: '2rem 0',
+
 })
 
